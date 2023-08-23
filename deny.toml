@@ -83,4 +83,4 @@ skip-tree = [
 [sources]
 # Deny crates from unknown registries or git repositories.
 unknown-registry = "deny"
-unknown-git = "deny"
+unknown-git = "allow"
