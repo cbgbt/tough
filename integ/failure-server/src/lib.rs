@@ -6,7 +6,7 @@ use noxious_client::{StreamDirection, Toxic, ToxicKind};
 use std::path::Path;
 use std::thread::sleep;
 use std::time::Duration;
-use toxic::{ToxicStaticHttpServer, ToxicTcpProxy};
+pub use toxic::{ToxicStaticHttpServer, ToxicTcpProxy};
 
 mod toxic;
 

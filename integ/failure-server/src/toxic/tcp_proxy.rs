@@ -11,7 +11,7 @@ use tempfile::NamedTempFile;
 
 /// A TCP proxy server that introduces artificial faults at the TCP layer.
 #[derive(Debug)]
-pub(crate) struct ToxicTcpProxy {
+pub struct ToxicTcpProxy {
     /// The name of the noxious proxy. Written to `ProxyConfig`.
     name: String,
     /// The proxy's listen address. Written to `ProxyConfig`.
@@ -27,12 +27,7 @@ pub(crate) struct ToxicTcpProxy {
 }
 
 impl ToxicTcpProxy {
-    pub(crate) fn new<T1, T2, T3>(
-        name: String,
-        listen: T1,
-        upstream: T2,
-        api_listen: T3,
-    ) -> Result<Self>
+    pub fn new<T1, T2, T3>(name: String, listen: T1, upstream: T2, api_listen: T3) -> Result<Self>
     where
         T1: ToSocketAddrs + Debug,
         T2: ToSocketAddrs + Debug,
@@ -54,7 +49,7 @@ impl ToxicTcpProxy {
         })
     }
 
-    pub(crate) fn with_toxic(mut self, toxic: Toxic) -> Self {
+    pub fn with_toxic(mut self, toxic: Toxic) -> Self {
         self.toxics.push(toxic);
         self
     }
@@ -62,7 +57,7 @@ impl ToxicTcpProxy {
     /// Starts the noxious-server.
     ///
     /// If the server is already running, it will be restarted.
-    pub(crate) async fn start(&mut self) -> Result<()> {
+    pub async fn start(&mut self) -> Result<()> {
         // Stop any existing server
         self.stop().ok();
 
@@ -109,7 +104,7 @@ impl ToxicTcpProxy {
     /// Attempts to kill the running server, if there is one.
     ///
     /// Succeeds if the server is killed successfully or if it isn't/was never running.
-    pub(crate) fn stop(&mut self) -> Result<()> {
+    pub fn stop(&mut self) -> Result<()> {
         self.running_server
             .as_mut()
             .map(std::process::Child::kill)

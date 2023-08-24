@@ -24,7 +24,7 @@ const LATENCY_PROBABILITY: f64 = 0.1;
 ///
 /// The server implementation is "toxic" in that it introduces artificial faults at the HTTP layer.
 #[derive(Debug)]
-pub(crate) struct ToxicStaticHttpServer {
+pub struct ToxicStaticHttpServer {
     /// The proxy's listen address. Written to `ProxyConfig`.
     listen: SocketAddr,
 
@@ -36,7 +36,7 @@ pub(crate) struct ToxicStaticHttpServer {
 }
 
 impl ToxicStaticHttpServer {
-    pub(crate) fn new<T, P>(listen: T, serve_dir: P) -> Result<Self>
+    pub fn new<T, P>(listen: T, serve_dir: P) -> Result<Self>
     where
         T: ToSocketAddrs + Debug,
         P: AsRef<Path>,
@@ -53,7 +53,7 @@ impl ToxicStaticHttpServer {
     }
 
     /// Starts the HTTP server.
-    pub(crate) fn start(&mut self) -> Result<()> {
+    pub fn start(&mut self) -> Result<()> {
         // Stop any existing server
         self.stop().ok();
 
@@ -78,7 +78,7 @@ impl ToxicStaticHttpServer {
     /// Attempts to kill the running server, if there is one.
     ///
     /// Succeeds if the server is killed successfully or if it isn't/was never running.
-    pub(crate) fn stop(&mut self) -> Result<()> {
+    pub fn stop(&mut self) -> Result<()> {
         if let Some(server) = self.running_server.take() {
             server.abort();
         }
